@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // 1. constructor 构造函数
+    // 对象原型(__proto__) 和 构造函数(prototype)原型对象 里面都有一个constructor属性,
+    // constructor我们称为构造函数,因为它指回构造函数本身.
+    function Star(name,age) {
+        this.name = name;
+        this.age = age;
+        this.action = function() {
+            console.log('I can do anything')
+        }
+    }
+    //1.在对象上添加
+     Star.prototype.dance = function() {
+         console.log('I am good at dance');
+     }
+     Star.prototype.game = function() {
+         console.log('I like play game');
+     }
+     //2.把整个prototype 对象覆盖掉了
+     Star.prototype = {
+         dance:function() {
+            console.log('I am good at dance');
+         },
+         game:function() {
+            console.log('I like play game');
+         }
+     }
+     var lucy = new Star('lucy',19);
+     console.log(Star.prototype.constructor);
+     console.log(lucy.__proto__.constructor);
+
+     //很多情况下,我们需要手动的利用constructor 指回
+    </script>
+</body>
+</html>

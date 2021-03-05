@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Star(name,age) {
+            this.name = name;
+            this.age = age;
+            this.action = function() {
+                console.log('I can do anything')
+            }
+        }
+         Star.prototype.dance = function() {
+             console.log('I am good at dance');
+         }
+         var lucy = new Star('lucy',19);
+         //1.只要是对象就有__proto__ 原型,指向原型对象
+         console.log(lucy.__proto__);
+         console.log(Star.prototype);
+         console.log(Star.prototype.__proto__ === Object.prototype);
+         //2.我们Star原型对象里面的__proto__原型指向的是Object.prototype
+         console.log(Object.prototype__proto__)
+         //3 Js 的成员查找机制(guize),按原型链一层层网上查找.
+    </script>
+</body>
+</html>

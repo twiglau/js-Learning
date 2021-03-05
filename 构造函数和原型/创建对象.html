@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Star(name,age) {
+            this.name = name;
+            this.age = age;
+            this.action = function() {
+                console.log('I can do anything')
+            }
+        }
+        var tpl = new Star('jone',18)
+        
+        //1.实例成员就是构造函数内部通过this 添加的成员 name,age就是实例成员
+        //实例成员只能通过实例化的对象来访问.
+        console.log(tpl.name)
+        tpl.action()
+
+        //console.log(Star.name); -> 不可以通过构造函数来访问实例成员
+
+        //2.静态成员,在构造函数本身上添加成员 country 就是静态成员
+        Star.country = 'China';
+        //静态成员只能通过构造函数来访问
+        console.log(Star.country)
+    </script>
+</body>
+</html>
