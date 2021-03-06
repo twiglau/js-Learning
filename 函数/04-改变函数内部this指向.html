@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button></button>
+    <script>
+        //改变函数内部this指向:
+        //js提供三种方法: call(), apply(), bind()
+        //1.call()
+        var o = {
+            name:'andy'
+        }
+        function fn(a,b) {
+            console.log(this);
+            console.log(a + b);
+        }
+        fn.call(o,1,2);
+        //call : 可以调用函数, 也可以改变函数内的this 指向
+        //call : 主要作用可以实现继承
+        function Father(uname,age,sex) {
+            this.uname = uname;
+            this.age = age;
+            this.sex = sex;
+        }
+        function Son(uname,age,sex) {
+            Father.call(this,uname,age,sex);
+        }
+        var son = new Son('l',18,'girl');
+
+        // 3.bind() 原函数拷贝
+        var k = {
+            run:'can'
+        }
+        function kn() {
+            console.log(this);
+        }
+        var kt = kn.bind(k);
+        kt();
+        //3.1 不会调用原来的函数,可以改变原来函数内部的this指向
+        //3.2 返回的是原函数改变this之后产生的新函数.
+        //3.3 如果有的函数我们不需要立即调用,但是
+        //又想改变这个函数内部的this指向,此时用bind
+        var btn = document.querySelector('button');
+        btn.onclick = function() {
+            this.disabled = true;// 这个this 指向的是btn 这个按钮.
+            setTimeout(function(){
+                //定时器函数里面的this 指向的是window 对象
+                this.disabled = false;
+            }.bind(this),3000); //这个this指向的是btn 这个对象
+        }
+    </script>
+</body>
+</html>

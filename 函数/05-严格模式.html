@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        'use strict';
+        // 严格模式
+        //1. 消除了Javascript 语法的 一些不合理,不严谨之处,减少了一些怪异行为;
+        //1.变量名必须先声明在使用
+        a = 10;
+        console.log(a);
+        //2.我们不能随意删除已经声明好的变量
+        //3.this 指向问题.
+        //3.1 严格模式下全局作用域中的函数中的this指向 undefined ,不是window.
+        function fn() {
+            console.log(this);
+        }
+        fn();
+        //3.2 严格模式下,如果构造函数不加new 调用, this 会报错
+        function Star() { this.sex = '男'};
+        Star();
+        //3.3 定时器this还是指向window.
+        //3.4 事件,对象还是指向调用者.
+        //4. 函数相关变化;
+
+        //4.1 不许参数同名
+        function fc(a,a) {
+            console.log(a + a);
+        };
+        // 4.2 不许将函数定义在if,for 等代码块中定义函数.
+    </script>
+</body>
+</html>

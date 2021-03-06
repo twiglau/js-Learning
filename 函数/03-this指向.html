@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //函数的不同调用方式决定了this的指向不同
+        //1. 普通函数(命名函数)
+        // 普通函数 this 指向 window, 因为默认由 window调用
+        function fn() {
+            console.log('普通函数的this' + this);
+        };
+        
+        window.fn();
+        //2 .函数表达式 (匿名函数)
+        // 对象的方法 this 指向的是对象 o
+        var o = {
+            say: function() {
+                console.log('对象方法的this: ' + this);
+            }
+        }
+        o.say();
+        //3.构造函数: this 指向 lucy 这个实力对象
+        //原型对象里面的this 指向也是 lucy 这个实例对象
+        function Star() {
+
+        };
+        var lucy = new Star();
+        //4. 绑定时间函数 this 指向的是函数调用者 btn 这个实例对象
+        //5. 定时器函数  this 指向的也是window
+        //6. 立即执行函数  this 还是指向window
+    </script>
+</body>
+</html>
