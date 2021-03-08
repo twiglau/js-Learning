@@ -13,6 +13,20 @@
 
         const b = new Set(['a','b']);
         console.log(b.size);
+
+        const c = new Set(['a','a','b','b']);
+
+        const ary = [...c];
+        console.table(ary);
+
+        const s = new Set();
+        console.log({
+        a : s.add(1).add(2).add(3),
+        b: s.delete(2),
+        c: s.has(1),
+        d: s.clear()
+        })
+        
     </script>
 </body>
 </html>
