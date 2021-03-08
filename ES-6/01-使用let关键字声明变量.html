@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1.使用let 关键字声明的变量才具有块级作用域
+        // var关键字是不具有这个特点的
+
+        //例子:防止循环变量变成全局变量
+        for(var i = 0; i < 2; i++) {
+
+        }
+        console.log(i);
+        for(let a = 1; a < 3; a++) {
+
+        }
+        //使用let关键字声明变量.html:22 Uncaught ReferenceError: a is not defined
+        // console.log(a);
+
+        //2.let 不存在变量提升
+        console.log(c); //输出 undefined
+        var c = 21;
+        // console.log(b);
+        // let b = 20;
+        // Uncaught ReferenceError: Cannot access 'b' before initialization
+
+        //3.let 暂时性死区,块级作用域内
+        var tmp = 123;
+        if(true) {
+            //Uncaught ReferenceError: Cannot access 'tmp' before initialization
+            console.log(tmp);
+            let tmp = 50;
+        }
+    </script>
+</body>
+</html>

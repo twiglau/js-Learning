@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1.Array 的扩展方法
+        let ary = [
+            {
+                id:1,
+                name:'zhang'
+            },
+            {
+                id:2,
+                name:'li'
+            }
+        ]
+        let target = ary.find((item,index) => item.id == 2);
+        console.log(target);
+
+        let a = [1,2,3].includes(2);
+        let b = [1,2,3].includes(4);
+        console.log({a,b})
+
+    </script>
+</body>
+</html>

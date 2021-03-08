@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //1.使用const关键字声明的常量具有块级作用域
+        if(true) {
+            const a = 10;
+            console.log(a);
+        }
+        //console.log(a);//Uncaught ReferenceError: a is not defined
+
+        //2.使用const 关键字声明的常量必须赋初始值
+        // const PI;//Uncaught SyntaxError: Missing initializer in const declaration
+
+        //3.常量赋值后,值不能修改.
+        const PI = 3.14;
+        PI = 100;//02-const关键字.html:23 Uncaught TypeError: Assignment to constant variable.
+        
+    </script>
+</body>
+</html>
