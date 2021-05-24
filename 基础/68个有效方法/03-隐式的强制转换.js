@@ -39,7 +39,73 @@ console.log( d !== d);
 var e = { valueOf: "foo"}
 console.log( e !== e);
 
-//一个清晰命名的实用工具函数
+//2.一个清晰命名的实用工具函数
 function isReallyNaN(x){
     return x !== x;
 }
+
+//3.对象也可以被强制转换为原始值,最常见的用法是转换为字符串:
+console.log("the Math object:" + Math)
+console.log("the JSON object:" + JSON) 
+//转换为字符串
+console.log(Math.toString(),JSON.toString())
+//转换为数字,对象也可以通过其valueOf方法转换为数字.
+console.log("J" + {toString:function() { return "S";}})
+console.log(2 * {valueOf:function() {return 3;}})
+//当一个对象同时包含toString和valueOf方法时,运算符 + 应该调用哪个方法并不
+//明显---- 做字符串连接还是加法应该根据参数的类型,但是存在隐式的强制转换.
+var obj = {
+    toString:function(){
+        return "[object MyObject]";
+    },
+    valueOf:function(){
+        return 17
+    }
+};
+console.log("object: " + obj)
+//以上例子说明,valueOf方法才真正是为那些代表数值的对象(如Number对象)而设计的.
+//不管是对象的链接还是对象的相加,重载的运算符 + 总是一致的行为.
+//一般情况下,字符串的强制转换远比数字的强制转换更常见,更有用.
+
+//4.最后一种强制转换有时称为 真值运算(truthiness).
+//大多数的JavaScript值都为真值(truthy),也就是能隐式地转换为true.对于字符串和数字
+//以外的其他对象, 真值运算不会隐式调用任何强制转换方法.JavaScript中有7个假值:
+//false, 0, -0, "", NaN, null 和 undefined. 其他所有的值都为真值.
+//由于数字和字符串可能为假值. 因此,使用真值运算检查函数或者对象属性是否已定义不是绝对安全
+//的. 
+function point(x,y){
+    if(!x){
+        x = 320;
+    }
+    if(!y){
+        y = 240;
+    }
+    return {x: x, y: y};
+}
+//4.1此函数忽略任何为假值的参数,包括0:
+console.log(point(0,0));
+//4.2检查参数是否为undefined更为严格的方式是使用typeof:
+function point_x(x,y){
+    if(typeof x === 'undefined'){
+        x = 320;
+    }
+    if(typeof y === 'undefined'){
+        y = 240;
+    }
+    return {x: x, y: y};
+}
+//4.2.1 此版本的point函数可以正确地识别 0 和 undefined.
+console.log(point());
+console.log(point(0,0));
+//4.3 另一种方式是与undefined进行比较.
+if(x === undefined) {}
+
+/**
+ * 1.类型错误可能被隐式的强制转换所隐藏.
+ * 2.重载的运算符 + 是进行加法运算还是字符串操作取决于其参数类型
+ * 3.对象通过valueOf()方法强制转换为数字,通过toString方法强制转换为字符串.
+ * 4.具有valueOf()方法的对象应该实现toString方法,返回一个valueOf方法产生的数字的
+ *   字符串表示.
+ * 5.测试一个值是否为未定义的值,应该使用typeof或者与undefined进行比较而不是使用真值运算.
+ */
+
