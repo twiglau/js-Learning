@@ -95,8 +95,8 @@ function point_x(x,y){
     return {x: x, y: y};
 }
 //4.2.1 此版本的point函数可以正确地识别 0 和 undefined.
-console.log(point());
-console.log(point(0,0));
+console.log(point_x());
+console.log(point_x(0,0));
 //4.3 另一种方式是与undefined进行比较.
 if(x === undefined) {}
 
