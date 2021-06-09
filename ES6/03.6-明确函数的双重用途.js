@@ -63,3 +63,48 @@ console.log({
  * 
  * 通过检查 new.target 是否被定义,这个新的元属性就让你能安全地判断函数是否被使用 new 进行了调用.
  */
+function Person_02(name){
+    if(typeof new.target !== "undefined"){
+        this.name = name; //使用 new
+    } else {
+        throw new Error("You must use new with Person_02.")
+    }
+}
+var person_02 = new Person_02("Nicholas");
+// var notAPerson_02 = Person_02.call(person_02,"Michael"); //出错!
+/**
+ * 使用 new.target 而非 this instanceof Person_02, Person_02 构造器会在未使用
+ * new 调用时正确地抛出错误.
+ * 
+ * 也可以检查 new.target 是否被使用特定构造器进行了调用,如下:
+ */
+function Person_03(name){
+    if(new.target === Person_03){
+        this.name = name; //使用 new
+    } else {
+        throw new Error("You must use new with Person_03.")
+    }
+}
+function AnotherPerson_03(name){
+    Person_03.call(this,name);
+}
+var person_03 = new Person_03("Nicholas");
+var anotherPerson_03 = new AnotherPerson_03("Nicholas"); //出错!
+/**
+ * 注:原文此段代码有误.
+ * if(new.target === Person){}
+ * 这一行原先写为:
+ * if(typeof new.target === Person){}
+ * 原先的写法有误,不能正确发挥作用,它会在 new Person_2("Nicholas"),这行就抛出错误.
+ */
+
+/**
+ * 在此代码中,为了正确工作, new.target 必须是 Person. 当调用 new AnotherPerson_03("Nicholas")时,
+ * Person_03.call(this,name) 也随之被调用,从而抛出了错误,因为此时在 Person_03 构造器内部的 new.target
+ * 值为 undefined (Person_03 并未使用 new 调用).
+ * 
+ * 警告: 在函数之外使用 new.target 会有语法错误.
+ * 
+ * ES6 通过新增 new.target 而消除了函数调用方面的不确定性. 在该主题上, ES6 还随之解决了本语言之前
+ * 另一个不确定的部分 --- 在代码块内部声明函数.
+ */
