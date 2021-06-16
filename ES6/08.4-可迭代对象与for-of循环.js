@@ -28,3 +28,53 @@ for(let num of values){
  * 一般不易出错,因为需要留意的条件更少; 传统的 for 循环被保留用于处理更复杂的控制条件.
  */
 
+/**
+ * 1.访问默认迭代器
+ * 你可以使用 Symbol.iterator 来访问对象上的默认迭代器,如下:
+ */
+let valuesDefault = [1,2,3];
+let iteratorDefault = valuesDefault[Symbol.iterator]();
+console.log(iteratorDefault.next());
+console.log(iteratorDefault.next());
+console.log(iteratorDefault.next());
+console.log(iteratorDefault.next());
+//以上代码获取了 values 数组的默认迭代器,并用它来迭代数组中的项,这个过程与使用 for-of 循环时在后台发生
+//的过程一致.
+
+//既然 Symbol.iterator 指定了默认迭代器,你就可以使用它来检测一个对象是否可以进行迭代,如下:
+function isIterable(object) {
+    return typeof object[Symbol.iterator] === "function";
+}
+console.log(isIterable[1,2,3]);
+console.log(isIterable("Hello"));
+console.log(isIterable(new Map()));
+console.log(isIterable(new Set()));
+console.log(isIterable(new WeakMap()));
+console.log(isIterable(new WeakSet()));
+//这个 isIterable() 函数仅仅查看对象是否存在一个类型为函数的默认迭代器. for-of 循环在执行之前会做
+//类似的检查.
+
+//2.创建可迭代对象
+/**
+ * 开发者自定义对象默认情况下不是可迭代对象,但你可以创建一个包含生成器的 Symbol.iterator 属性,使之成为可迭代对象.
+ */
+let collection = {
+    items:[],
+    *[Symbol.iterator](){
+        for(let item of this.items){
+            yield item;
+        }
+    }
+};
+collection.items.push(1);
+collection.items.push(2);
+collection.items.push(3);
+for(let x of collection){
+    console.log(x);
+}
+/**
+ * 本例首先为 collection 对象定义了一个默认的迭代器,这个默认迭代器是用Symbol.iterator方法创建的,
+ * 此方法是一个生成器(注意名称之前依然有星号). 接下来该生成器使用了一个 for-of 循环来对 this.items
+ * 中的值进行迭代,并使用了 yield 来返回每个值. collection 对象依靠 this.items 的默认迭代器来工作,
+ * 而非定义的值上手动进行迭代.
+ */
