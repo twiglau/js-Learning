@@ -187,5 +187,98 @@ console.log("Hi!");//2
 
 /**
  * 2.3 创建已决的Promise
+ * 基于Promise执行器行为的动态本质,Promise构造器就是创建未决的Promise的最好方式,但若你想让一个Promise代表一个已知的值,
+ * 那么安排一个单纯传值给 resolve() 函数的作业并没有意义. 相反,有两种方法可使用指定值来创建已决的Promise.
+ */
+
+/**
+ * 2.3.1 使用Promise.resolve()
+ * Promise.resolve() 方法接受单个参数并会返回一个处于完成态的Promise. 这意味着没有任何作业调度会发生,并且
+ * 你需要向Promise 添加一个或更多的完成处理函数来提取这个参数值.如下:
+ */
+let promise = Promise.resolve(42);
+promise.then(function(value){
+    console.log(value); //42
+});
+/**
+ * 此代码创建了一个已完成的Promise,因此完成处理函数就接收到42作为value参数. 若一个拒绝处理函数被添加到此Promise,该
+ * 拒绝处理函数将永不会被调用,因为此Promise绝不可能再是拒绝态.
+ */
+
+/**
+ * 2.3.2 使用Promise.reject()
+ * 也可以使用 Promise.reject() 方法来创建一个已拒绝的Promise. 此方法向Promise.resolve() 一样工作,区别是被创建的
+ * Promise处于拒绝态,如下:
+ */
+let promise = Promise.reject(42);
+promise.catch(function(value){
+    console.log(value); //42
+});
+//任何附加到这个Promise的拒绝处理函数都将会被调用,而完成处理函数则不会执行.
+//若你传递一个Promise给 Promise.resolve() 或 Promise.reject() 方法,该 Promise 会不作修改原样返回.
+
+/**
+ * 2.3.3 非Promise的Thenable
+ * Promise.resolve() 与 Promise.reject() 都能接受非Promise的thenable作为参数. 当传入了非Promise的
+ * thenable时,这些方法会创建一个新的Promise,此Promise会在 then() 函数之后被调用.
+ * 当一个对象拥有一个能接受resolve与reject参数的then()方法,该对象就会被认为是一个非Promise的thenable,如下:
+ */
+let thenable = {
+    then:function(resolve,reject) {
+        resolve(42);
+    }
+};
+//此例中的 thenable 对象,除了 then() 方法之外没有任何与Promise相关的特征. 你可以调用 Promise.resolve() 
+//来将 thenable 转换为一个已完成的 Promise:
+let p1 = Promise.resolve(thenable);
+p1.then(function(value){
+    console.log(value); // 42
+});
+/**
+ * 在此例中,Promise.resolve() 调用了 thenable.then(),确定了这个 thenable 的 Promise 状态: 由于 resolve(42)
+ * 在 thenable.then() 方法内部被调用,这个 thenable 的Promise状态也就被设为已完成. 一个名为 p1 的新Promise被创建
+ * 为完成态,并从 thenable 中接收到了值(此处为42),于是 p1 的完成处理函数就接收到一个值为42的参数.
  * 
+ * 使用 Promise.resolve(),同样还能从一个 thenable 创建一个已拒绝的 Promise:
+ */
+let p2 = Promise.resolve(thenable);
+p2.catch(function(value){
+    console.log(value); //42
+});
+//此例类似于上例,区别是此处的 thenable 被拒绝了, 当 thenable.then() 执行时,一个处于拒绝态的新 Promise 被创建,并
+//伴随着一个值(42). 这个值此后会被传递给 p2 的拒绝处理函数.
+
+/**
+ * Promise.resolve() 与 Promise.reject() 用类似方式工作,让你能轻易处理费Promise的 thenable. 在Promise被引入ES6之前,
+ * 许多库都使用了 thenable,因此将thenable转换为正规Promise的能力就非常重要了,能对之前已存在的库提供了向下兼容. 当你不能确定
+ * 一个对象是否是Promise时,将该对象传递给 Promise.resolve() 或 Promise.reject()是能找出的最好方式,因为传入真正的Promise
+ * 只会被直接传递出来,并不会被修改.
+ */
+
+/**
+ * 3.执行器错误
+ * 如果在执行器内部抛出了错误,那么Promise的拒绝处理函数就会被调用,如下:
+ */
+let promise = new Promise(function(resolve,reject){
+    throw new Error("Explosion!");
+});
+promise.catch(function(error){
+    console.log(error.message); //"Explosion!"
+});
+//在此代码中,执行器故意抛出了一个错误.此处在每个执行器之内并没有显示的 try-catch,因此错误就被捕捉并传递给了拒绝处理函数.
+//这个例子等价于:
+let promiseA = new Promise(function(resolve,reject){
+    try {
+        throw new Error("Explosion!");
+    }catch(ex){
+        reject(ex);
+    }
+});
+promise.catch(function(error){
+    console.log(error.message); // "Explosion!"
+})
+/**
+ * 执行器处理程序捕捉了抛出的任何错误,以简化这种常见处理. 但在执行器内抛出的错误仅当在拒绝处理函数
+ * 时才会被报告,否则这个错误就会被隐瞒. 这在开发者早期使用Promise的时候是一个问题,但JS环境通过
+ * 提供钩子( hook ) 来捕捉被拒绝的Promise,从而拒绝了此问题.
  */
