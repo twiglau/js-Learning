@@ -407,4 +407,82 @@ class Promise {
  * 四, Promise面试相关
  */
 
+/**
+ * 1. 简单介绍下Promise.
+ * Promsie是异步编程的一种解决方案, 比传统的解决方案---回调函数和事件---更合理
+ * 更强大. 它由社区最早提出和实现, ES6将其写进语言标准,统一了用法,原生提供了Promise对象.
+ * 有了Promise对象,就可以将异步操作以同步操作的流程表达出来,避免了层层嵌套的回调函数.
+ * 此外,Promise对象提供统一的接口,使得控制异步操作更加容易.
+ * 
+ * >Promise状态,有什么方法,callback存在什么问题等等
+ * >Promise具体解决了那些问题,存在什么特点,应用方向等等.
+ */
+
+/**
+ * 2. 实现一个简单的,支持异步链式调用的Promise类.
+ * 可参考 https://juejin.cn/post/6844904094079926286
+ * 加分项: 基本功能实现的基础上有onResolved/onRejected函数异步调用,错误捕获合理等亮点.
+ */
+
+/**
+ * 3. Promise.then 在Event Loop 中的执行顺序.
+ * (可以直接问,也可以出具体题目让面试者回答打印顺序)
+ * JS中分为两种任务类型: macrotask 和 microtask, 
+ * 其中macrotask 包含:主代码块, setTimeout,setInterval,setImmediate等(setImmediate规定: 在下一次
+ * Event Loop(宏任务)时触发);
+ * microtask包含: Promise, process.nextTick等(在node环境下,process.nextTick的优先级高于Promise)
+ * 
+ * Event Loop中执行一个macrotask任务(栈中没有就从事件队列中获取) 执行一个macrotask任务,就将它添加到微任务
+ * 的任务队列中,macrotask任务执行完毕后,立即执行当前微任务队列中的所有microtask任务(依次执行),然后开始下一个
+ * macrotask任务(从事件队列中获取)
+ * 
+ * 浏览器运行机制可参考 https://mp.weixin.qq.com/s/vIKDUrbuxVNQMi_g_fiwUA
+ */
+
+/**
+ * 4. 阐述Promise的一些静态方法
+ * Promise.deffered,Promise.all,Promise.race,Promise.resolve,Promise.reject等
+ */
+
+/**
+ * 5. Promise存在哪些缺点
+ * > 1. 无法取消Promise,一旦新建它就会立即执行,无法中途取消.
+ * > 2. 如果不设置回调函数,Promise内部抛出的错误,不会反应到外部.
+ * > 3. 吞掉错误或异常,错误只能顺序处理,即便在Promise链最后添加catch方法,依然可能存在无法捕捉的
+ *      错误(catch内部可能会出现错误)
+ * > 4. 阅读代码不是一眼可以看懂,你只会看到一堆then,必须自己在then的回到函数里面厘清逻辑
+ */
+
+/**
+ * 6. 使用Promise进行顺序(sequence)处理
+ * > 1. 使用async函数配合await或者使用generator函数配合yield.
+ * > 2. 使用Promise.thne通过for循环或者Array.prototype.reduce实现
+ */
+function sequenceTasks(tasks){
+    function recordValue(results,value){
+        results.push(value);
+        return results;
+    }
+    var pushValue = recordValue.bind(null,[]);
+    return tasks.reduce(function (promise,task) {
+        return promise.then( () => task).then(pushValue);
+    },Promise.resolve());
+}
+
+/**
+ * 7. 如何停止一个Promise链?
+ * 在要停止的promsie链位置添加一个方法,返回一个永远不执行resolve或者reject的Promise,那么这个promise
+ * 永远处于pending状态,所以永远也不会向下执行then或catch了. 这样我们就停止了一个promise链.
+ */
+Promise.cancel = Promise.stop = function() {
+    return new Promise(function(){})
+}
+
+/**
+ * 8. Promise链上返回的最后一个Promise出错了怎么办?
+ * catch在promise链式调用的末尾调用,用于捕获链条中的错误信息,但是catch方法内部也可能出现错误,
+ * 所以有些promise实现中增加了一个方法done,done相当于提供了一个不会出错的catch方法,并且不再
+ * 返回一个promise,一般用来结束一个promise链.
+ */
+
 
