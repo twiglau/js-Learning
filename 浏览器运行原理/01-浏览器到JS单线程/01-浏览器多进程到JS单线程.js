@@ -1,4 +1,5 @@
 /**
+ * 原文: http://www.dailichun.com/2018/01/21/js_singlethread_eventloop.html
  * 大纲
  * > 区分进程和线程
  * > 浏览器是多进程的
