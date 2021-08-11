@@ -77,3 +77,77 @@ console.log(flatten4(arr));
  * 在这里直接给出源码和注释, 但是要注意, 这里的 flatten 函数并不是最终的 _.flatten, 为了
  * 方便多个 API 进行调用, 这里对扁平进行了更多的配置.
  */
+
+
+/**
+ * 
+ * @param {Array} input 要处理的数组
+ * @param {boolean} shallow  是否只扁平一层
+ * @param {boolean} strict 是否严格处理元素, 下面有解释
+ * @param {Array} output 这个为了方便递归而传递的参数
+ * 源码地址：https://github.com/jashkenas/underscore/blob/master/underscore.js#L528
+ */
+function flatten4(input,shallow,strict,output){
+    //递归使用的时候会用到output
+    output = output || [];
+    var idx = output.length;
+
+    for(var i = 0, len = input.length; i < len; i++){
+
+        var value = input[i];
+        //如果是数组,就进行处理
+        if(Array.isArray(value)) {
+            // 如果是只扁平一层,遍历该数组,依次填入 output
+            if(shallow) {
+                var j = 0, length = value.length;
+                while (j < length) output[idx++] = value[j++];
+            }
+            // 如果是全部扁平就递归,传入已经处理的 output, 递归中接着处理 output
+            else {
+                flatten4(value,shallow,strict,output);
+                idx = output.length;
+            }
+        }
+        // 不是数组, 根据 strict 的值判断是跳过不处理还是放入 output
+        else if(!strict){
+            output[idx++] = value;
+        }
+    }
+
+    return output;
+}
+/**
+ * 解释下 strict, 在代码里我们可以看出, 当遍历数组元素是, 如果元素不是数组, 就会对 strict
+ * 取反的结果进行判断, 如果设置 strict 为 true, 就会跳过不进行任何处理, 这意味着可以过滤非
+ * 数组的元素, 举个例子:
+ */
+var arr2 = [1,2,[3,4]];
+console.log(flatten4(arr2,true,true));
+/**
+ * 那么设置 strict 到底有什么用呢? 不急, 我们先看下 shallow 和 strict 各种值对应的结果:
+ * > shallow true + strict false: 正常扁平一层
+ * > shallow false + strict false: 正常扁平所有层
+ * > shallow true + strict true: 去掉非数组元素
+ * > shallow false + strict true: 返回一个 []
+ */
+
+
+/**
+ * 5. 数组的扁平化方法
+ * Function.apply.bind([].concat,[])
+ * 
+ * //相当于
+ * function(arg){
+ *    return Function.apply.call([].concat,[],arg)
+ * }
+ * 
+ * //相当于
+ * function(arg){
+ *    return [].concat.apply([],arg)
+ * }
+ * 
+ * //相当于
+ * function(arg){
+ *    return [].concat(...arg)
+ * }
+ */
