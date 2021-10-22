@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <title>Using arrow functions to work around callback function contexts</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <!-- 事件处理的按钮元素 -->
+    <button id="test">Click Me!</button>
+    <script>
+        //Button构造函数用于创建保存按钮的状态的对象
+        function Button(){
+            this.clicked = false;
+            //声明用于以下点击事件的箭头函数,因为click是对象的方法,
+            //我们在函数内部使用this获得对象的引用
+            this.click = ()=> {
+                this.clicked = true;
+                //在函数内,验证点击之后按钮的状态发生改变
+                assert(button.clicked,"The button has been clicked");
+            }
+        }
+        var button = new Button();
+        var elem = document.getElementById("test");
+        //在按钮上监听点击事件
+        elem.addEventListener("click",button.click);
+
+    </script>
+</body>
+</html>

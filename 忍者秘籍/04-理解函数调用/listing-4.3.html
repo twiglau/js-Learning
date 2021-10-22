@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <title>Arrow functions and Object literals</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <!-- 事件处理的按钮元素 -->
+    <button id="test">Click Me!</button>
+    <script type="text/javascript">
+         //全局代码中的 this 指向全局window对象
+         assert(this === window,"this === window");
+         var button = {//使用对象字面量定义button
+            clicked:false,
+            click: () => { //箭头函数是对象字面量的属性
+                this.clicked = true;
+                //验证是否单击按钮
+                assert(button.clicked,"The button has been clicked");
+                //箭头函数中的this指向全局window对象
+                assert(this === window,"In arrow function this === window");
+                assert(window.clicked,"Clicked is stored in window");
+            }
+         }
+         var elem = document.getElementById("test");
+         elem.addEventListener("click",button.click);
+    </script>
+</body>
+</html>

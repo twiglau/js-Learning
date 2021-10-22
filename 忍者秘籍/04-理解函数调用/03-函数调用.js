@@ -181,6 +181,112 @@ var whatever = Ninja();
  * // 随后会为该按钮附加事件处理器
  * <button id="test">Click Me! </button>
  * <script>
+ *    function Button(){
+ *      // 为对象赋值事件处理器的构造函数,该事件处理器反映了按钮的状态,通过这个事件处理器,
+ *      // 我们能够跟踪按钮是否被单击
+ *      this.clicked = false;
+ *      this.click = function(){
+ *         // 单击事件处理器的声明函数, 由于该函数是对象的方法,所以在函数中
+ *         // 使用this来获取对象的引用
+ *         this.clicked = true;
+ *         // 在该方法中, 我们测试了按钮是否在单击后正确地改变了状态
+ *         assert(button.clicked,"The button has been clicked");
+ *      };
+ *    }
  *    
+ *    // 创建一个用于跟踪按钮是否被单击的实例
+ *    var button = new Button();
+ *    var elem = document.getElementById("test");
+ *    // 在按钮上添加单击处理器
+ *    elem.addEventListener("click",button.click);
  * </script>
+ * 
+ * 在这个例子中,我们定义了一个按钮 <button id="test">Click Me!</button>,并且想知道
+ * 它是否曾被单击过. 为了保存单击的状态信息, 我们使用构造函数创建一个名为 button 的实例化
+ * 对象,通过该对象我们可以存储被单击的状态.
+ * 
+ * 在该对象中,我们还定义了一个 click 方法作为单击按钮时触发的事件处理函数. 该方法将 clicked
+ * 属性设置为 true, 然后测试实例化对象中的状态是否正确(我们有意使用 button 标识符而非 this
+ * 关键字 --- 毕竟,它们应该具有相同的指向.)
+ * 
+ * 通常情况下, 事件回调函数的上下文是触发事件的对象(在本例中是 HTML 中的按钮, 而非 button 对象)
+ */
+
+/**
+ * 2. 使用 apply 和 call 方法
+ * apply 方法调用函数, 需要为其传递两个参数: 作为函数上下文的对象 和 一个数组作为函数调用的参数.
+ * call 方法的使用方式类似, 不同点在于是直接以参数列表的形式, 而不再是作为数组传递.
+ */
+// 使用 apply 和 call 方法来设置函数上下文
+function juggle(){
+    var result = 0;
+    for(var n = 0; n < arguments.length; n++){
+        result += arguments[n];
+    }
+    this.result = result;
+    // 函数"处理"了参数,并将结果result变量放在任意一个作为该函数上下文的对象上
+}
+var ninja1 = {};
+var ninja2 = {}; // 这些对象的初始值为空,它们会作为测试对象
+
+juggle.apply(ninja1,[1,2,3,4]); //使用apply方法向ninja1传递一个参数数组
+juggle.call(ninja2,5,6,7,8); //使用call方法向ninja2传递一个参数列表
+
+assert(ninja1.result === 10, "juggled via apply");
+assert(ninja2.result === 26, "juggled via call"); //测试展现了传入 juggle 方法中
+//的对象拥有了结果值
+
+//apply 和 call 之间唯一的不同之处在于如何传递参数
+/**
+ * 传入call 和 apply 方法的第一个参数都会被作为函数上下文, 不同处在于后续的参数.
+ * apply方法只需要一个额外的参数,也就是一个包含参数值的数组; call方法则需要传入
+ * 任意数量的参数值,这些参数将用作函数的实参
+ */
+
+//使用call和apply方法手动设置函数上下文,产生函数上下文(this)与arguments
+/**
+ * 2.1 call和apply这两个方法对于我们要特殊指定一个函数的上下文对象时特别有用,在执行回调函数时
+ * 可能会经常用到.
+ * > 强制指定回调函数的函数上下文
+ * 
+ * 如下例子,将使用一个简单的函数对数组的每个元素执行相应的操作.
+ * 在命令式编程中,常常将数组传给函数,然后使用for循环遍历数组,再对数组的每个元素执行具体操作: 
+ * function(collection){
+ *   for(var n = 0; n < collection.length;n++){
+ *        do something to collection[n]
+ *   }
+ * }
+ * 而函数式方法创建的函数只处理单个元素: 
+ * function(item){
+ *   do something to item
+ * }
+ * 
+ * 以上二者的区别在于是否将函数作为程序的主要组成部分. 也许你会认为这么做毫无意义,仅仅只是删除For循环,
+ * 也没有对实例做任何优化.
+ * 
+ * 为了实现更加函数式的风格,所有数组对象均可使用forEach函数,对每个数组元素执行回调. 对于熟悉函数式编程
+ * 的开发者来说,这种方法比传统的for循环更加简洁. forEach遍历函数将每个元素传给回调函数,将当前元素作为
+ * 回调函数的上下文.
+ * 
+ * function forEach(list,callback){
+ *   // forEach函数接收两个参数: 需要遍历的集合和回调函数
+ *   for(var n = 0; n < list.length; n++) {
+ *       callback.call(list[n],n); //当前遍历到的元素作为函数上下文调用回调函数
+ *   }
+ * }
+ * 
+ * 使用call方法调用回调函数,将当前遍历到的元素作为第一个参数,循环索引作为第二个参数,使得当前元素作为
+ * 函数上下文,循环索引作为回调函数的参数.
+ * 
+ * var weapons = [
+ *    {type:'shuriken'},
+ *    {type: 'katana'},
+ *    {type: 'nunchucks'}
+ * ]; // 测试数组
+ * 
+ * forEach(weapons,function(index){
+ *    assert(this == weapons[index],"Got the expected value of " + weapons[index].type);
+ * }); //调用迭代函数forEach,确保每个回调函数的上下文正确
+ * 
+ * 
  */

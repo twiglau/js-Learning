@@ -1,0 +1,26 @@
+<html lang="en">
+<head>
+    <title>Arrow functions and Object literals</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <!-- 事件处理的按钮元素 -->
+    <button id="test">Click Me!</button>
+    <script type="text/javascript">
+    var button = {
+        clicked:false,
+        click: function(){
+            this.clicked = true;
+            assert(button.clicked,"The button has been clicked");
+        }
+    };
+    var elem = document.getElementById("test");
+    elem.addEventListener("click",button.clicked.bind(button));//使用bind函数创建新函数,绑定到button对象上
+
+    var boundFunction = button.click.bind(button);
+    assert(boundFunction != button.click,"Calling bind creates a completly new function");
+    </script>
+</body>
+</html>
