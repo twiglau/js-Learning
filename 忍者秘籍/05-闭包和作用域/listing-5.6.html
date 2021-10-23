@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+    <title>The behavior of constant variable</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        const firstConst = "samurai";
+        //定义const变量,并验证该变量已被赋值
+        assert(firstConst === "samurai","firstConst is a samurai");
+        try {
+            firstConst = "ninja";
+            fail("Shouldn't be here");
+        } catch (error) {
+            pass("An exception has occurred");
+        }
+        //试图为const变量重新赋值将抛出异常
+        assert(firstConst === "samurai","firstConst is still a samurai!");
+        //创建一个新的const变量,并赋值为空对象
+        const secondConst = {};
+        secondConst.weapon = "wakizashi";
+        //我们不能再将一个全新的对象赋值给secondConst变量,但是可以对原有变量进行修改
+        assert(secondConst.weapon === "wakizashi","We can add new properties");
+
+        const thirdConst = [];
+        assert(thirdConst.length === 0, "No items in our array");
+
+        thirdConst.push("Yoshi");
+        //const 数组也一样
+        assert(thirdConst.length === 1, "The array has changed");
+    </script>
+</body>
+</html>

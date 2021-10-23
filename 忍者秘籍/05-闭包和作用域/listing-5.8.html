@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <title>Using const and let keywords</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        //使用const定义全局变量,全局静态变量通常用大写表示
+        const GLOBAL_NINJA = "Yoshi";
+        function reportActivity(){
+            //使用const定义函数内的局部变量
+            const functionActivity = "jumping";
+            for(var i = 1; i < 3; i++){
+                //使用let在for循环中定义两个变量
+                var forMessage = GLOBAL_NINJA + " " + functionActivity;
+                //在for循环中可以访问块级变量,函数内的局部变量以及全局变量
+                assert(forMessage === "Yoshi jumping","Yoshi is jumping within the for block");
+                assert(i,"Current loop counter:" + i);
+            }
+            //现在,在for循环外部无法访问for循环内的变量
+            assert(typeof i === "undefined" && typeof forMessage === "undefined","Loop variables not accessible outside the loop");
+        }
+        reportActivity();
+        console.log(typeof functionActivity === "undefined");
+        //自然地,在函数外部无法访问任何一个函数内部的变量
+        assert(typeof functionActivity === "undefined" && typeof i === "undefined" && typeof forMessage === "undefined","We cannot see function variables outside of a function");
+    </script>
+</body>
+</html>

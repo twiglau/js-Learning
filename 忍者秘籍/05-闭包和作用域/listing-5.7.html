@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <title>Using the var keyword</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        //使用关键字var定义全局变量
+        var globalNinja = "Yoshi";
+        function reportActivity(){
+            //使用关键字var定义函数内部的局部变量
+            var functionActivity = "jumping";
+            for(var i = 1; i < 3; i++){
+                //使用关键字var在for循环中定义两个变量
+                var forMessage = globalNinja + " " + functionActivity;
+                //在for循环中可以访问块级变量,函数内的局部变量以及全局变量
+                assert(forMessage === "Yoshi jumping","Yoshi is jumping within the for block");
+                assert(i,"Current loop counter:" + i);
+            }
+            //但是在for循环外部,仍然能访问for循环中定义的变量
+            assert(i === 3 && forMessage === "Yoshi jumping","Loop variables accessible outside of the loop");
+        }
+        reportActivity();
+        console.log(typeof functionActivity === "undefined");
+        assert(typeof functionActivity === "undefined" && typeof i === "undefined" && typeof forMessage === "undefined","We cannot see function variables outside of a function");
+    </script>
+</body>
+</html>
