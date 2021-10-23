@@ -96,5 +96,10 @@
  * 在本例中, 我们将值Kiyokawa 赋给 firstRonin, 然后调用 check 函数, 传入参数 firstRonin. 先等一下,如果JavaScript是逐行执行的,
  * 我们此时可以调用 check 函数吗? 程序还没执行到函数check的声明,所以JavaScript引擎不应该认识 check 函数.但是,程序运行得很顺利.
  * 
- * 
+ */
+
+/**
+ * 3.1 注册标识符的过程
+ * 但除了易用性, 代码入额逐行执行, JavaScript引擎是如何知道check函数存在呢? 这说明JavaScript引擎耍了小把戏,JavaScript代码的
+ * 执行事实上是分两个阶段进行的.
  */
