@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <title>A simple closure</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <script>
+        var outerValue = "ninja"; //在全局作用域中定义一个变量
+        function outerFunction(){
+            //在全局作用域中声明函数
+            assert(outerValue === "ninja","I can see the ninja.");
+        }
+        outerFunction(); //执行该函数
+    </script>
+</body>
+</html>

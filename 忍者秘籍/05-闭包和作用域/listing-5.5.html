@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <title>The creation of execution contexts</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        function skulk(ninja){
+            report(ninja + " skulking");//一个函数调用另外一个函数
+        }
+        function report(message){
+            console.log(message);//通过内置的console.log方法发送消息
+        }
+        skulk("Kuma");
+        skulk("Yoshi"); //在全局中分别调用两个函数
+
+    </script>
+</body>
+</html>

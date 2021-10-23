@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <title>Using a closure in a timer interval callback</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+        #box1{
+            width: 100px;
+            height: 100px;
+            position: relative;
+            margin:5;
+            color: white;
+            font-weight: bolder;
+            background-color:blue;
+            margin-bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 创建用于展示动画的DOM元素 -->
+    <div id="box1">First Box</div>
+    <script>
+        function animateIt(elementId){
+            //在动画函数animateIt内部,获取DOM元素的引用
+            var elem = document.getElementById(elementId);
+            //创建一个计时器用于记录动画执行的次数
+            var tick = 0;
+            //创建并启动一个JavaScript内置的计时器,传入一个回调函数
+            var timer = setInterval(function(){
+                if(tick < 100){
+                    elem.style.left = elem.style.top = tick + "px";
+                    tick++;
+                }//每隔10毫秒调用一次计时器的回调函数,调整元素的位置100次
+                else {
+                    clearInterval(timer);
+                    assert(tick === 100,"Tick accessed via a closure");
+                    assert(elem,"Element also accessed via a closure");
+                    assert(timer,"Timer reference also obtained via a closure");
+                }
+            },10);//setInterval函数的持续时间为10毫秒,也就是说回调函数每隔10毫秒调用一次
+        }
+        animateIt("box1"); //可以执行动画函数并查看动画效果
+
+    </script>
+</body>
+</html>

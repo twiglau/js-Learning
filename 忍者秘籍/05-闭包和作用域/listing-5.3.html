@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+    <title>使用闭包模拟私有变量</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <script>
+        function Ninja(){//定义Ninja构造函数
+            var feints = 0; //在构造函数内部声明一个变量,因为所声明的变量的作用域
+            //局限于构造函数的内部,所以它是一个 "私有" 变量. 我们使用该变量统计 Ninja佯攻的次数
+            this.getFeints = function(){
+                return feints; //创建用于访问计数变量 feints 的方法. 由于在构造函数外部的代码
+                //是无法访问 feints 变量的, 这是通过只读形式访问该变量的常用方法
+            };
+            this.feint = function(){
+                feints++;
+            };//为feints变量声明一个累加方法. 由于feints为私有变量,在外部是服务累加的,累加过程则被
+            //限制在我们提供的方法中
+        }
+
+        var ninja1 = new Ninja();//现在开始测试,首先创建一个Ninja的实例
+        ninja1.feint();//调用feint方法,通过该方法增加Ninja的佯攻次数
+
+        //验证我们无法直接获取该变量值
+        assert(ninja1.feints === undefined,"And the private data is inaccessible to us.");
+        //虽然我们无法直接对feints变量赋值,但是我们仍然能够通过getFeints方法操作该变量的值
+        assert(ninja1.getFeints() === 1,"We're able to access the internal feint count.");
+
+        var ninja2 = new Ninja();
+        assert(ninja2.getFeints() === 0, "The second ninja object gets its own feints variable.");
+        //当我们通过ninja构造函数创建一个新的ninja2实例时,ninja2对象则具有自己私有的feints变量
+
+
+    </script>
+</body>
+</html>

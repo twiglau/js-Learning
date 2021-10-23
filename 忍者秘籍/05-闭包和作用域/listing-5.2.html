@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <title>A simple closure</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+</head>
+<body>
+    <script>
+        var outerValue = "samurai";
+        var later; //声明一个空变量,稍后在后面的代码中使用
+        function outerFunction(){
+            var innerValue = "ninja"; //在函数内部声明一个值,该值的作用域局限于
+            //函数内部,在函数外部不允许访问
+            function innerFunction(){
+                assert(outerValue === "samurai","I can see the samurai.");
+                assert(innerValue === "ninja","I can see the ninja.");
+            }//在outerFunction函数中声明一个内部函数,声明该内部函数时,innerValue是在内部函数的作用域
+
+            later = innerFunction;//将内部函数innerFunction的引用存储在变量later上,因为later
+            //在全局作用域内,所以我们可以对它进行调用
+        }
+        outerFunction();//调用outerFunction函数,创建内部函数innerFunction,并将内部函数赋值给变量later
+
+        later();//通过Later调用内部函数. 我们不能直接调用内部函数,因为它的作用域(和innerValue一起)被限制
+        //在外部函数outerFunction之内
+    </script>
+</body>
+</html>
