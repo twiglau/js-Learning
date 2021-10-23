@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+    <title>Approximate private variables with closure</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        function Ninja(){
+            //在构造函数内部声明变量,由于该变量的作用域在构造函数内部,因此,feints是一个私有变量
+            var feints = 0;
+            this.getFeints = function(){
+                return feints;
+            };//访问feints计数的方法
+            this.feint = function(){
+                feints++;
+            };//变量feints的增值方法. 由于feints是私有变量,因此,无法通过其他方法改变
+            //变量feints的值,仅限于我们所给出的方法
+        }
+        var ninja1 = new Ninja();
+        //验证我们无法直接访问变量feints
+        assert(ninja1.feints === undefined,"And the private data is inaccessible to us.");
+        //调用feint方法,增加变量feints的值进行统计调用次数
+        ninja1.feint();
+        //验证已经执行了递增
+        assert(ninja1.getFeints() === 1, "We're able to access the internal feint count.");
+
+        var ninja2 = new Ninja();
+        //当通过构造函数创建实例 ninja2 时,实例 ninja2 具有独立的变量 feints
+        assert(ninja2.getFeints() === 0, "The second ninja object gets its own feints variable.");
+    </script>
+</body>
+</html>

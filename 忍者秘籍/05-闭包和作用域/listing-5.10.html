@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+    <title>Overriding function identifiers</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        //fun指向一个函数
+        assert(typeof fun === "function","We access the function");
+        //定义变量fun并赋值为数字3
+        var fun = 3;
+        //fun指向一个数字
+        assert(typeof fun === "number","Now we access the number");
+        //函数声明
+        function fun(){}
+        //fun 仍然指向数子
+        assert(typeof fun === "number","Still a number");
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <title>Accessing a function before its declaration</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        //若函数是作为函数声明进行定义的, 则可以在函数声明之前访问函数
+        assert(typeof fun === "function","fun is a function even though its definition isn't reached yet!");
+        assert(typeof myFunExp === "undefined","But we cannot access function expressions");
+        //若函数是通过函数表达式或箭头函数进行定义的,则不可以在函数定义之前访问函数
+        assert(typeof myArrow === "undefined","Nor arrow functions");
+
+        //作为函数声明进行定义
+        function fun(){}
+        var myFunExpr = function(){};
+        //myFunExpr指向函数表达式myArrow指向箭头函数
+        var myArrow = (x) => x;
+    </script>
+</body>
+</html>
