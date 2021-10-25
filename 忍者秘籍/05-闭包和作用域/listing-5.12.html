@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <title>Private variables are accessed through functions and not through objects</title>
+    <meta charset="utf-8">
+    <script src="../assert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assert.css">
+    <style>
+    </style>
+</head>
+<body>
+    <script>
+        function Ninja(){
+            var feints = 0;
+            this.getFeints = function(){
+                return feints;
+            };
+            this.feint = function(){
+                feints++;
+            };
+        }
+        var ninja1 = new Ninja();
+        ninja1.feint();
+
+        var imposter = {};
+        //将ninja1的对象方法getFeints赋值给对象imposter
+        imposter.getFeints = ninja1.getFeints;
+        //验证我们访问ninja1对象的私有变量
+        assert(imposter.getFeints() === 1, "The imposter has access to the feints variable!");
+    </script>
+</body>
+</html>
