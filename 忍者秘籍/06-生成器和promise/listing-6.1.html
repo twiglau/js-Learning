@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Using a generator to generate a sequence of values</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			"use strict"
+			//通过在关键字function后面添加星号 *定义生成器函数
+			function* WeaponGenerator(){
+				yield "Katana";
+				yield "Wakizashi";
+		  		yield "Kusarigama"; //使用新的关键字yield生成独立的值
+			}
+
+			for(let weapon of WeaponGenerator()) {
+			  assert(weapon !== undefined, weapon);
+			}//使用新的循环类型 for-of取出生成的值序列																		
+		</script>
+	</body>
+</html>

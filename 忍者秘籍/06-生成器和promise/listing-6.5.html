@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Using generators to generate IDs</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			//定义生成器函数IdGenerator
+			function *IdGenerator(){
+				let id = 0; //一个始终记录ID的变量,这个变量无法在生成器外部改变
+				while(true){
+					yield ++id;
+				}//循环生成无限长度的ID序列
+			}
+			const idIterator = IdGenerator();//这个迭代器我们能够向生成器请求新的ID值
+
+			const ninja1 = { id: idIterator.next().value };
+			const ninja2 = { id: idIterator.next().value };
+			const ninja3 = { id: idIterator.next().value };//请求3个新ID值
+
+			assert(ninja1.id === 1, "First ninja has id 1");
+			assert(ninja2.id === 2, "Second ninja has id 2");
+			assert(ninja3.id === 3, "Third ninja has id 3"); //测试运行结果
+		</script>
+	</body>
+</html>

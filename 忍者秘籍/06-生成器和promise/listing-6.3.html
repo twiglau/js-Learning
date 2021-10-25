@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Iterating over generator results with a while loop</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function *WeaponGenerator(){
+				yield "Katana";
+				yield "Wakizashi";
+			}
+			//新建一个迭代器
+			const weaponsIterator = WeaponGenerator();
+			//创建一个变量,用这个变量来保存生成器产生的值
+			let item;
+			while(!(item = weaponsIterator.next()).done){
+				assert(item !== null,item.value);
+			}//每次循环都会从生成器中取出一个值,然后输出该值. 当生成器不会再生成值的时候,停止迭代
+		</script>
+	</body>
+</html>

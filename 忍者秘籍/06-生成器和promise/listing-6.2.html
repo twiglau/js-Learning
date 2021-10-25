@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Controlling a generator through an iterator object</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+		    function *WeaponGenerator(){
+				yield "Katana";
+				yield "Wakizashi";
+			}//定义一个生成器,它能生成一个包含两个武器数据的序列
+			
+			//调用生成器得到一个迭代器,从而我们能够控制生成器的执行
+			const weaponsIterator = WeaponGenerator();
+			//调用迭代器的next方法向生成器请求一个新值
+			const result1 = weaponsIterator.next();
+			//结果为一个对象,其中包含着一个返回值,及一个指示器告诉我们生成器是否还会生成值.
+			assert(typeof result1 === "object" && result1.value === "Katana" && !result1.done,"Katana received!");
+
+			const result2 = weaponsIterator.next();
+			//再次调用next方法从生成器中获取新值
+			assert(typeof result2 === "object" && result2.value === "Wakizashi" && !result2.done,"Wakizashi received!");
+
+			const result3 = weaponsIterator.next();
+			//当没有可执行的代码,生成器就会返回"undefined"值,表示它的状态为已经完成
+			assert(typeof result3 === "object" && result3.value === undefined && result3.done, "There are no more results!");
+		</script>
+	</body>
+</html>

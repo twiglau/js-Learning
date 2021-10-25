@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sending data to and recieving data from a generator</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			//生成器可以像其他函数一样接收标准参数
+			function *NinjaGenerator(action){
+				//奇迹出现,产生一个值的同时,生成器会返回一个中间计算结果.通过带有参数
+				//的调用迭代器的next方法,我们可以将数据传递回生成器
+				const imposter = yield("Hattori " + action);
+				assert(imposter === "Hanzo","The generator has been infiltrated");
+				//传递回的值将成为yield表达式的返回值,因此imposter的值是Hanzo
+				yield("Yoshi (" + imposter + ") " + action);
+			}
+			//普通的参数传递
+			const ninjaIterator = NinjaGenerator("skulk");
+			const result1 = ninjaIterator.next();
+			//触发生成器的执行,并检测返回值是否正确
+			assert(result1.value === "Hattori skulk","Hattori is skulking");
+
+			const result2 = ninjaIterator.next("Hanzo");
+			//将数据作为next方法的参数传递给生成器,并检测返回值是否符合预期
+			assert(result2.value === "Yoshi (Hanzo) skulk","We have an imposter!");
+		</script>
+	</body>
+</html>
