@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Examining the type of an instance and its constructor</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){}
+			const ninja = new Ninja();
+			//通过typeof检测ninja的类型,但从结果仅仅能够得知ninja是一个对象而已
+			assert(typeof ninja === "object","The type of the instance is object.");
+			//通过instanceof检测ninja的类型,其结果提供更多信息 -- ninja是由Ninja构造而来的
+			assert(ninja instanceof Ninja,"instanceof identifies the constructor.");
+			//通过constructor引用检测ninja的类型,得到的结果为其构造函数的引用
+			assert(ninja.constructor == Ninja,"The ninja object was created by the Ninja function.");
+		</script>
+	</body>
+</html>

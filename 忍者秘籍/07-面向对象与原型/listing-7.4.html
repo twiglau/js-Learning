@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>With prototypes, everything can be changed at runtime</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){
+				this.swung = true;
+			}//定义一个构造函数,该构造函数中创建了一个swung属性,初始化为布尔值
+			const ninja1 = new Ninja(); //通过new操作符调用构造函数,创建实例Ninja
+			Ninja.prototype.swingSword = function(){
+				return this.swung;
+			};//在实例对象创建完成之后,在原型上添加一个方法
+			assert(ninja1.swingSword(),"Method exists,even out of order.");
+			//验证该方法存在于对象中
+
+			Ninja.prototype = {
+				pierce: function(){
+					return true;
+				}
+			}//使用字面量对象完全重写Ninja的原型对象,仅有一个pierce方法
+			assert(ninja1.swingSword(),"Our ninja can still swing!");
+			//尽管我们已经完全替换了Ninja的构造器原型,但是实例化后的Ninja对象仍然具有swingSword方法,因为
+			//对象ninja1仍然保持着对旧的Ninja原型的引用
+
+			const ninja2 = new Ninja();
+			assert(ninja2.pierce(),"Newly created ninjas can pierce");
+			assert(!ninja2.swingSword,"But they cannot swing!");
+			//新创建的ninja2实例拥有新原型的引用,因此不具有swingSword方法,仅具有pierce方法
+		</script>
+	</body>
+</html>

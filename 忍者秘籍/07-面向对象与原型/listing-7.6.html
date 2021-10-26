@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Instantiating a new object using a reference to a constructor</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){}
+			const ninja = new Ninja();
+			const ninja2 = new ninja.constructor();//通过第1个实例化对象的constructor方法
+			//创建第2个实例化对象
+			assert(ninja2 instanceof Ninja,"It's a Ninja!");//说明新创建的对象ninja2是Ninja的实例
+			assert(ninja !== ninja2,"But not the same Ninja!");
+			//ninja与ninja2 不是同一个对象, 是两个截然不同的实例
+		</script>
+	</body>
+</html>
