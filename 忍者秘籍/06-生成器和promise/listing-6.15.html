@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Creating a JSON promise</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function getJSON(url){
+				//创建并返回一个新的promise对象
+				return new Promise((resolve,reject) => {
+					const request = new XMLHttpRequest();
+					//创建一个XML HttpRequest对象
+					request.open("GET",url);//初始化请求
+					request.onload = function(){
+						//注册一个onload方法,当服务器响应后会被调用
+						try {
+							//即使服务端正常响应也并不意味着一切如期发生,只有当服务端返回的状态码为200.
+							if(this.status === 200){
+								//尝试解析JSON字符串,尚诺解析成功,则执行resolve,并将解析后的对象作为参数传入
+								resolve(JSON.parse(this.response));
+							}else{
+								reject(this.status + " " + this.statusText);
+							}
+						} catch (error) {
+							reject(error.message);
+						}
+					};
+					request.onerror = function(){
+						reject(this.status + " " + this.statusText);
+					};
+					request.send();
+
+				});
+			}
+
+			getJSON("data/ninjas.json").then(ninjas => {
+				assert(ninjas !== null,"Ninjas obtained!");
+			}).catch(e => fail("Shouldn't be here: " + e));
+		</script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Explicitly rejecting promises</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const promise = new Promise((resolve,reject) => {
+				//可以通过调用传入的reject函数显式拒绝该promise
+				reject("Explicitly reject a promise!");
+			});
+			//如果promise被拒绝,则第二个回调函数 error 将会被调用
+			promise.then(()=> fail("Happy path,won't be called!"),error => pass("A promise was explicitly rejected!"))
+
+		</script>
+	</body>
+</html>

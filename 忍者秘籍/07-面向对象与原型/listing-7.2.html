@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Creating a new instance with a prototyped method</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){} //定义一个空函数,什么也不做,也没有返回值
+			Ninja.prototype.swingSword = function(){
+				return true;
+			};//每个函数都具有内置的原型对象,我们可以对其自由更改
+			const ninja1 = Ninja();
+			assert(ninja1 === undefined,"No instance of Ninja created");
+			//作为函数调用Ninja,验证该函数没有任何返回值
+			const ninja2 = new Ninja();
+			assert(ninja2 && ninja2.swingSword && ninja2.swingSword(),"Instance exists and method is callable.");
+			//作为构造函数调用Ninja,验证不仅创建了新的实例,并且该实例具有原型上的方法
+
+		</script>
+	</body>
+</html>

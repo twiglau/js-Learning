@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>A closer look at promise order of execution</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			fail("At code start");
+			var ninjaDelayedPromise = new Promise((resolve,reject) => {
+				//调用Promise构造函数来立即调用传入的函数
+				report("ninjaDelayedPromise executor");
+				setTimeout(()=> {
+					report("Resolving ninjaDelayedPromise");
+					resolve("Hattori");
+				},500);
+				//在500ms之后,为promise调用resolve方法表明承诺已成功完成
+			});
+			assert(ninjaDelayedPromise !== null, "After creating ninjaDelayedPromise");
+			ninjaDelayedPromise.then(ninja => {
+				assert(ninja === "Hattori","ninjaDelayedPromise resolve handled with Hattori");
+				//Promise的then方法用于创建一个当承诺兑现后执行的回调函数,在本例中当计时器超时会被执行
+			});
+			const ninjaImmediatePromise = new Promise((resolve,reject) => {
+				report("ninjaImmediatePromise executor. Immediate resolve.");
+				resolve("Yoshi");
+			});//创建一个新的promise对象并立刻调用resolve函数
+
+			ninjaImmediatePromise.then(ninja => {
+				assert(ninja === "Yoshi","ninjaImmediatePromise resolve handled with Yoshi");
+			});//创建一个回调函数,当promise调用resolve方法后执行,但我们的promise已经调用过resolve方法了
+
+			fail("At code end");
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Exceptions explicitly reject a promise</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const promise = new Promise((resolve,reject) => {
+				//如果在处理promise时出现未处理的异常,则会被隐式地拒绝
+				undeclaredVariable++;
+			})
+			promise.then(() => fail("Happy path, won't be called!"))
+			       .catch(error => pass("Third promise was also rejected"));
+			//如果发生了异常, 则第二个回调函数 error 将被调用
+		</script>
+	</body>
+</html>

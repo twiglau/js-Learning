@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Observing the precedence of initialization activities</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){
+				this.swung = false;//创建布尔类型的实例变量,并初始化该变量的默认值为false
+				this.swingSword = function(){
+					return !this.swung; //创建实例方法,该方法的返回值为实例变量swung取反
+				};
+			}
+			Ninja.prototype.swingSword = function(){
+				return this.swung;
+			};//定义一个与实例方法同名的原型方法,将会优先使用哪一个?
+			const ninja = new Ninja();
+			//创建Ninja的一个实例,并验证方法会重写与之同名的原型方法
+			assert(ninja.swingSword(),"Called the instance method,not the prototype method.");
+		</script>
+	</body>
+</html>

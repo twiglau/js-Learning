@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Creating a simple promise</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			//通过内置Promise构造函数可以创建一个promise对象,需要向构造函数中传入两个
+			//函数参数: resolve 和 reject
+			const ninjaPromise = new Promise((resolve,reject) => {
+				resolve("Hattori");
+				//reject("An error resolving a promise!");
+			});//通过调用传入的resolve函数,一个promise将被成功兑现(resolve)
+			//(通过调用 reject 则 promise被拒绝)
+			ninjaPromise.then(ninja => {
+				assert(ninja === "Hattori","We were promised Hattori!");
+			}, err => {//出现错误时则调用第二个回调函数
+				fail("There shouldn't be an error")
+			});
+			//在一个promise对象上使用then方法后可以传入两个回调函数, promise成功兑换
+			//后会调用第一个回调函数
+		</script>
+	</body>
+</html>

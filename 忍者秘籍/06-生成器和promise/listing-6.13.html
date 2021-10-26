@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Chaining a catch method</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			var promise = new Promise((resolve,reject) => {
+				reject("Explicitly reject a promise!");
+			});
+			promise.then(()=> fail("Happy path, won't be called!"))
+			       .catch(() => pass("Promise was also rejected"));
+			//不同于应用第二个回调函数error, 我们可以对catch方法进行链式调用,并
+			//将其传入回调函数error中,最终的结束条件相同
+		</script>
+	</body>
+</html>

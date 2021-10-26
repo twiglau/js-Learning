@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>With prototypes objects can access properties of other objects</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const yoshi = { skulk: true };
+			const hatori = { sneak: true };
+			const kuma = { creep: true };
+
+			assert("skulk" in yoshi, "Yoshi can skulk");
+			assert(!("sneak" in yoshi), "Yoshi cannot sneak");
+			assert(!("creep" in yoshi), "Yoshi cannot creep");
+
+			//将对象hattori设置为yoshi对象的原型
+			Object.setPrototypeOf(yoshi, hatori);
+			console.log({yoshi})
+
+			//通过将hattori对象设置为yoshi对象的原型,现在yoshi可以访问hattori对象的属性
+			assert("sneak" in yoshi, "Yoshi can now sneak");
+
+			assert(!("creep" in hatori), "Hatori cannot creep");
+
+			Object.setPrototypeOf(hatori, kuma);
+			console.log({hatori})
+			assert("creep" in hatori, "Hatori can now creep");
+			assert("creep" in yoshi, "Yoshi can also creep");
+		</script>
+	</body>
+</html>
