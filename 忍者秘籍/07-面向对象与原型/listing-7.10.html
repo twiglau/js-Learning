@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>解决constructor属性的问题</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Person(){}
+			Person.prototype.dance = function(){};
+
+			function Ninja(){}
+			Ninja.prototype = new Person();
+
+			Object.defineProperty(Ninja.prototype,"constructor",{
+				enumerable:false,
+				value:Ninja,
+				writable:true //定义一个新的不可枚举的 constructor 属性, 属性值为 Ninja
+			});
+
+			var ninja = new Ninja();
+			//重新建立ninja实例与Ninja构造器的联系
+			assert(ninja.constructor === Ninja,"Connection from ninja instances to Ninja constructor reestablished!");
+
+			for(let prop in Ninja.prototype){
+				//在Ninja.prototype上没有定义可枚举的属性
+				assert(prop === "dance","The only enumerable property is dance!");
+			}
+		</script>
+	</body>
+</html>

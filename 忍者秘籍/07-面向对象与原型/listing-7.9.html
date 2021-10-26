@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>配置属性</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			var ninja = {};
+			ninja.name = "Yoshi";
+			ninja.weapon = "kusarigama";//创建一个空对象,通过赋值语句添加对象属性
+
+			Object.defineProperty(ninja,"sneaky",{
+				configurable:false,
+				enumerable:false,
+				value:true,
+				writable:true
+			});//使用内置的Object.defineProperty方法设置对象属性的配置信息
+
+			assert("sneaky" in ninja, "We can access the new property");
+			for(let prop in ninja){
+				assert(prop !== undefined,"An enumerated property: " + prop);
+				//使用for-in循环遍历ninja的可枚举的属性
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>在ES6中创建类</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			//使用ES6指定的关键字 class 创建类
+			class Ninja {
+				constructor(name){
+					this.name = name;
+				}//定义一个构造函数,当使用关键字 new 调用类时, 会调用这个构造函数
+				swingSword(){
+					return true;
+				}//定义一个所有的Ninja实例均可访问的方法
+			}
+
+			var ninja = new Ninja("Yoshi");//使用new创建实例对象 ninja
+
+			assert(ninja instanceof Ninja, "Our ninja is a Ninja");
+			assert(ninja.name === "Yoshi","named Yoshi");
+			assert(ninja.swingSword(),"and he can swing a sword");//验证预期的行为
+		</script>
+	</body>
+</html>

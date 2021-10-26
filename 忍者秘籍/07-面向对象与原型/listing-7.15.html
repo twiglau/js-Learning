@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>在ES6中的实现继承</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			class Person {
+				constructor(name){
+					this.name = name;
+				}
+				dance(){
+					return true;
+				}
+			}
+			class Ninja extends Person {//使用关键字extends实现继承
+				constructor(name,weapon){
+					super(name);//使用关键字super调用基类构造函数
+					this.weapon = weapon;
+				}
+				wieldWeapon(){
+					return true;
+				}
+			}
+			var person = new Person("Bob");
+
+			assert(person instanceof Person,"A person's a person");
+			assert(person.dance(),"A person can dance.");
+			assert(person.name === "Bob","We can call it by name.");
+			assert(!(person instanceof Ninja),"But it's not a Ninja");
+			assert(!("wieldWeapon" in person),"And it cannot wield a weapon");
+
+			var ninja = new Ninja("Yoshi","Wakizashi");
+			assert(ninja instanceof Ninja,"A ninja's a ninja");
+			assert(ninja.wieldWeapon(),"That can wield a weapon");
+			assert(ninja instanceof Person,"But it's also a person");
+			assert(ninja.name === "Yoshi","That has a name");
+			assert(ninja.dance(),"And enjoys dancing");
+		</script>
+	</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>探讨instanceof操作符</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Person(){}
+			function Ninja(){}
+			Ninja.prototype = new Person();
+
+			const ninja = new Ninja();
+
+			assert(ninja instanceof Ninja, "Our ninja is a Ninja!");
+			assert(ninja instanceof Person, "A ninja is also a Person.");//ninja是Ninja的实例, 同时也是Person的实例
+		</script>
+	</body>
+</html>
