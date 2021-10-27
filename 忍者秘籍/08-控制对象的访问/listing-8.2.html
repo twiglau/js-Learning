@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>在对象字面量中定义getter和setter</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjaCollection = {
+				ninjas: ["Yoshi","Kuma","Hattori"],
+				get firstNinja(){
+					report("Getting firstNinja");
+					return this.ninjas[0];
+				}, //定义firstNinja 的 getter 方法, 返回 ninjas列表中第一个值,并记录一条消息
+				set firstNinja(value){
+					report("Setting firstNinja");
+					this.ninjas[0] = value;
+				}//定义firstNinja的setter方法, 设置ninjas列表中第一个值,并记录一条消息
+			};
+			//如同访问标准对象属性一样访问firstNinja属性
+			assert(ninjaCollection.firstNinja === "Yoshi","Yoshi is the first ninja");
+			ninjaCollection.firstNinja = "Hachi"; //如同操作标准对象属性一样未firstNinja属性赋值
+
+			//验证水星修改成功并生效
+			assert(ninjaCollection.firstNinja === "Hachi" && ninjaCollection.ninjas[0] === "Hachi","Now Hachi is the first ninja");
+		</script>
+	</body>
+</html>
