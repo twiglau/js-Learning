@@ -43,4 +43,59 @@
  * - 通过使用内置的Object.defineProperty方法.
  * 
  * 清单8.2 在对象字面量中定义 getter 和 setter
+ * 
+ * 需要强调的是, 可以通过原生的 getter 和 setter 设置标准属性, 但是这些方法是在访问属性时立即执行的.进一步说明.
+ * 
+ * 在清单8.3中 我们使用ES6的 class.
+ * 
+ * 尽管通过ES6类和对象字面量指定 getter 和 setter 是很容易的, 但你可能已经注意到一些问题. 传统上, getter和setter
+ * 方法用于控制访问私有对象属性, 如清单8.1所示. 遗憾的是,JavaScript没有私有对象属性. 我们可以通过闭包模拟私有属性,
+ * 通过定义变量和指定对象包含这些变量. 由于对象字面量与类,getter和setter方法不是在同一个作用域中定义的, 因此那些希望
+ * 作为私有对象属性的变量是无法实现的. 幸运的是, 可以通过Object.defineProperty方法实现.
+ * 
+ * Object.defineProperty 方法可以用于定义新的属性, 传入属性描述对象即可. 属性描述对象可以包含 get 和 set 来定义
+ * getter 和 setter 方法.
+ * 
+ * 如清单8.4所示  通过Object.defineProperty定义getter和setter
+ * 
+ * 在本例中,我们首先定义了一个Ninja构造函数 ,该构造函数含有 _skillLevel 属性作为私有变量,如清单8.1所示.
+ * 接着,通过this引用新创建的对象,通过内置的Object.defineProperty方法: 
+ * Object.defineProperty(this,'skillLevel',{
+ *      get: () => {
+ *         report("The get method is called");
+ *         return _skillLevel;
+ *      },
+ *      set: value => {
+ *         report("The set method is called");
+ *         _skillLevel = value;
+ *      }
+ * });
+ * 
+ * 由于我们希望通过skillLevel属性控制访问私有变量, 因此我们定义了 set和get 方法.
+ * 注意: 
+ * 与对象字面量和类中的getter和setter不同,通过Object.defineProperty创建的get和set方法,与私有skillLevel
+ * 变量处于相同的作用域中. get和set方法分别创建了含有变量的闭包,我们只能通过 get和set方法 访问私有变量.
+ */
+
+
+/**
+ * 2. 使用getter与setter校验属性值
+ * 当对属性赋值时,会立即调用setter方法. 我们可以利用这一特性,在代码试图更新属性的值时实现一些行为. 例如,我们可以实现值
+ * 的校验.
+ * 
+ * 清单8.5  通过setter校验赋值
+ * 
+ * 这段代码显示了如何规避指定属性发生类型错误异常. 当然,这会增加性能开销, 但是, 在JavaScript这种动态类型语言中,为了安全
+ * 需要付出性能开销.
+ * 
+ * 这是setter方法的有用案例,还有许多其他的实践. 例如,可以使用同样的规则跟踪值的变化, 提供性能日志,提供值发生变化的提示等.
+ */
+
+/**
+ * 3. 使用getter与setter定义如何计算属性值
+ * 除了能够控制指定对象属性的访问之外, getter与setter还可以用于定义属性值的计算方法,
+ * 即每次访问该属性时都会进行计算属性值. 计算属性不会存储具体的值, 它们提供get和(或)set方法, 
+ * 用于直接提取, 设置属性. 在以下示例中,对象shogun具有name与clan两个属性,通过这两个属性来计算fullTitle属性值.
+ * 
+ * 清单8.6  定义如何计算属性
  */

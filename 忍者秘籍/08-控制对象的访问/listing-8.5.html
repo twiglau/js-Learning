@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>通过setter校验赋值</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Ninja(){
+				let _skillLevel = 0;
+
+				Object.defineProperty(this,'skillLevel',{
+					get: () => _skillLevel,
+					set: value => {
+						if(!Number.isInteger(value)){
+							throw new TypeError("Skill level should be a number");
+						}//校验传入的值是否整形,如果不是,则抛出异常
+						_skillLevel = value;
+					}
+				});
+			}
+			const ninja = new Ninja();
+			ninja.skillLevel = 10;
+			assert(ninja.skillLevel === 10, "The value was updated");
+			//我们可以将整形值赋值给属性skillLevel
+			try {
+				ninja.skillLevel = "Great";
+			} catch (error) {
+				pass("Setting a non-integer value throws an exception");
+			}//试图将非整型值(如字符串)赋值给属性skillLevel,将从setter方法抛出异常
+		</script>
+	</body>
+</html>
