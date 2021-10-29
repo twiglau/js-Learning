@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用代理自动填充属性</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function Folder(){
+				return new Proxy({},{
+					get: (target,property) => {
+						report("Reading " + property);//记录所有读取对象属性的日志
+
+						if(!(property in target)){
+							target[property] = new Folder();
+						}//如果对象不具有该属性,则创建该属性
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

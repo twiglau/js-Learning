@@ -98,4 +98,19 @@
  * 用于直接提取, 设置属性. 在以下示例中,对象shogun具有name与clan两个属性,通过这两个属性来计算fullTitle属性值.
  * 
  * 清单8.6  定义如何计算属性
+ * 
+ * const shogun = {
+ *     name:"Yoshiaki",
+ *     clan:"Ashikaga",
+ *     get fullTitle(){
+ *        return this.name + " " + this.clan;
+ *     },
+ *     set fullTitle(value){
+ *         const segments = value.split(" ");
+ *         this.name = segments[0];
+ *         this.clan = segments[1];
+ *     }
+ * };
+ * 
+ * 
  */

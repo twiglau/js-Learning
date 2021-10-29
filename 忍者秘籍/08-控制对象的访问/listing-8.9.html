@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用代理更易于在对象上添加日志</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function makeLoggable(target){
+				//定义形参为target的函数,并使得target可以记录日志
+				return new Proxy(target,{//针对target对象创建代理
+					get: (target,property) => {
+						report("Reading " + property);
+						return target[property];
+					}, //通过get方法实现属性读取时记录日志
+					set: (target,property,value) => {
+						report("Writing value " + value + " to " + property);
+						target[property] = value; //通过set方法实现属性赋值时记录日志
+					}
+				});
+			}
+
+			let ninja = { name: "Yoshi"};
+			ninja = makeLoggable(ninja);
+			//创建新的ninja对象,并作为目标对象传入makeLoggable方法, 使其可以记录日志
+			assert(ninja.name === "Yoshi","Our ninja Yoshi");
+			ninja.weapon = "sword"; //对代理对象进行读写操作时, 均会通过代理方法记录日志
+		</script>
+	</body>
+</html>
