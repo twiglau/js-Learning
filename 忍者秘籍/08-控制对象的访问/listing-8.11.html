@@ -16,8 +16,19 @@
 						if(!(property in target)){
 							target[property] = new Folder();
 						}//如果对象不具有该属性,则创建该属性
+
+						return target[property];
 					}
-				})
+				});
+			}
+
+			const rootFolder = new Folder();
+			try {
+				rootFolder.ninjasDir.firstNinjaDir.ninjaFile = "yoshi.txt";
+				//每当访问属性时,都会执行代理方法,若该属性不存在,则创建该属性
+				pass("An exception wasn't raised");//不会抛出异常
+			} catch (error) {
+				fail("An exception has occurred");
 			}
 		</script>
 	</body>

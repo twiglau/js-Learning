@@ -82,4 +82,14 @@
  * 似乎有点不必要的繁琐, 不是吗? 这时就需要自动填充属性登场, 看看清单8.11 的例子
  * 
  * 清单8.11 使用代理自动填充属性
+ * 
+ * 通常情况下,我们思考如下代码, 预期是抛出一个异常: 
+ * const rootFolder = new Folder();
+ * rootFolder.ninjasDir.firstNinjaDir.ninjaFile = "yoshi.txt";
+ * 
+ * 我们访问ninjasDir上未定义的属性 firstNinjaDir. 但是当我们执行代码时会发现,一切都运行正常.
+ * 
+ * 正是因为我们使用了代理,所以每次访问属性时, 代理方法都被激活. 如果访问的属性在文件夹对象存在,则
+ * 直接返回对应的值; 如果不存在, 将会创建新的文件夹并赋值给该属性. 这是ninjasDir 与 firstNinjaDir
+ * 属性被创建的原因.
  */
