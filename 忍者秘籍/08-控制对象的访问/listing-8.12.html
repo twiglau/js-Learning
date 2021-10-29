@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用代理实现数组负索引</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			function createNegativeArrayProxy(array){
+				if(!Array.isArray(array)){
+					throw new TypeError('Expected an array');
+					//如果传入的参数不是数组,则抛出异常
+				}
+
+				return new Proxy(array,{
+					//返回新的代理,该代理使用传入的数组作为代理目标
+					get: (target,index) => {
+						//当读取数组元素时调用get方法
+						index = +index;//使用一元 + 操作符将属性名变成的数值
+						return target[index < 0 ? target.length + index : index];
+						// 如果访问的是负向索引,则逆向访问数组. 如果访问的是正向索引,则正常访问数组
+					},
+					set: (target,index,val) => {
+						//当写入数组元素时, 调用set方法
+						index = +index;
+						return target[index < 0 ? target.length + index : index] = val;
+					}
+				});
+			}
+
+			const ninjas = ["Yoshi","Kuma","Hattori"]; //创建标准数组
+			const proxiedNinjas = createNegativeArrayProxy(ninjas);
+			//将数组传入函数,创建代理数组
+
+			assert(ninjas[0] === "Yoshi" && ninjas[1] === "Kuma" && ninjas[2] === "Hattori","Array items accessed through positive indexes");
+			assert(proxiedNinjas[0] === "Yoshi" && ninjas[1] === "Kuma" && ninjas[2] === "Hattori","Array items accessed through positive indexes on a proxy");
+			//分别通过原始数组和代理数组访问数组元素
+
+			assert(typeof ninjas[-1] === "undefined" && typeof ninjas[-2] === "undefined" && typeof ninjas[-3] === "undefined","Items cannot be accessed through negative indexes on an array");
+			//但是可以通过代理使用负向索引访问数组元素,因为代理get方法进行了必要的处理
+			assert(proxiedNinjas[-1] === "Hattori" && proxiedNinjas[-2] === "Kuma" && proxiedNinjas[-3] === "Yoshi","But they can be accessed through negative indexes");
+
+			proxiedNinjas[-1] = "Hachi";
+			assert(proxiedNinjas[-1] === "Hachi" && ninjas[2] === "Hachi","Items can be changed through negative indexes");
+			//通过代理, 我们也可以通过负向索引设置数组元素
+		</script>
+	</body>
+</html>
