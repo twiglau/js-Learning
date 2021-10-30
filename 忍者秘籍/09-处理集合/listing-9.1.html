@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>创建数组</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjas = ["Kuma","Hattori","Yagyu"];//使用数组字面量 [] 创建数组
+			const samurai = new Array("Oda","Tomoe");//使用内置Array构造函数创建数组
+
+			assert(ninjas.length === 3, "There are three ninjas");
+			assert(samurai.length === 2, "And only two samurai");//length属性告诉我们数组的大小
+
+			assert(ninjas[0] === "Kuma","Kuma is the first ninja");
+			//通过索引访问数组元素,第1个元素的索引是0,最后一个元素的索引是数组的长度减1
+			assert(samurai[samurai.length - 1] === "Tomoe","Tomoe is the last samurai");
+			//对超出数组边界的项读取,导致尾定义
+			assert(ninjas[4] === undefined,"We get undefined if we try to access an out of bounds index");
+
+			ninjas[4] = "Ishi";
+			assert(ninjas.length === 5, "Arrays are automatically expanded");
+			//对超出数组边界的索引写入元素将扩充数组
+
+			ninjas.length = 2;
+			assert(ninjas.length === 2, "There are only two ninjas now");
+			//手动修改数组的length属性为更小数值, 将会删除多余的元素
+			assert(ninjas[0] === "Kuma" && ninjas[1] === "Hattori","Kuma and Hattori");
+			assert(ninjas[2] === undefined,"But we've lost Yagyu");
+		</script>
+	</body>
+</html>

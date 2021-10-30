@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>删除数组元素和粗略方法</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjas = ["Yagyu","Kuma","Hattori","Fuma"];
+			delete ninjas[1]; //使用delete操作符删除元素
+
+			assert(ninjas.length === 4, "Length still reports that there are 4 items");
+			assert(ninjas[0] === "Yagyu","First item is Yagyu");
+			assert(ninjas[1] === undefined,"We've simply created a hole");
+			assert(ninjas[2] === "Hattori","Hattori is still the third item");
+			assert(ninjas[3] === "Fuma","And Fuma is the last item");
+			//虽然删除了元素的值, 但是数组长度仍然为4,我们在数组中创建了一个空元素
+
+		</script>
+	</body>
+</html>
