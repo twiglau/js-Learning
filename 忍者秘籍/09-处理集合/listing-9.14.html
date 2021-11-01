@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>访问对象未显式定义的属性</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const dictionary = {
+				"ja": { "Ninjas for hire":"日本"},
+				"zh": { "Ninjas for hire":"中国"},
+				"ko": { "Ninjas for hire":"韩国"}
+			};
+			assert(dictionary.ja["Ninjas for hire"] === "日本","We know how to say 'Ninjas for hire' in Japanese!");
+			assert(typeof dictionary.ja["constructor"] === "undefined",dictionary.ja["constructor"]);
+		</script>
+	</body>
+</html>
