@@ -8,6 +8,36 @@
 	</head>
 	<body>
 		<script>
+			function Set(){
+				this.data = {};
+				this.length = 0; //使用对象存储数据
+			}
+			Set.prototype.has = function(item){
+				return typeof this.data[item] !== "undefined";
+				//检查元素是否已经存在
+			};
+			Set.prototype.add = function(item){
+				if(!this.has(item)){
+					this.data[item] = true;
+					this.length++;
+				} //当set中不存在元素时,才进行添加
+			};
+			Set.prototype.remove = function(item){
+				if(this.has(item)){
+					delete this.data[item];
+					this.length--;
+				}
+			};//如果set中已经存在元素,则删除
+
+			const ninjas = new Set();
+			ninjas.add("Hattori");
+			ninjas.add("Hattori");
+			//验证只存在一个Hattori值
+			assert(ninjas.has("Hattori") && ninjas.length === 1,"Our set contains only one Hattori");
+
+			ninjas.remove("Hattori");
+			//删除Hattori, 并验证已被删除成功
+			assert(!ninjas.has("Hattori") && ninjas.length === 0, "Our set is now empty");
 			
 		</script>
 	</body>
