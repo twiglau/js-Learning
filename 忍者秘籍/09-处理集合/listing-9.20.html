@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>通过对象模拟Set</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjas = new Set(["Kuma","Hattori","Yagyu","Hattori"]);
+			//Set构造函数接收数组进行初始化
+
+			assert(ninjas.has("Hattori"),"Hattori is in our set");
+			assert(ninjas.size === 3, "There are only three ninjas in our set!");
+			//丢弃重复项
+
+			assert(!ninjas.has("Yoshi"),"Yoshi is not in,yet...");
+			ninjas.add("Yoshi");
+			assert(ninjas.has("Yoshi"),"Yoshi is added");
+			//可以向集合中添加不存在的元素
+			assert(ninjas.size === 4, "There are four ninjas in our set!");
+
+			assert(ninjas.has("Kuma"),"Kuma is already added");
+			ninjas.add("Kuma");
+			//向集合中添加已存在的元素将不起任何作用
+			assert(ninjas.size === 4, "Adding Kuma again has no effect");
+
+			for(let ninja of ninjas){
+				assert(ninja !== null,ninja);
+			}//通过for-of循环对集合进行遍历
+		</script>
+	</body>
+</html>

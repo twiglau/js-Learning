@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>交集</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjas = new Set(["Kuma","Hattori","Yagyu"]);
+			const samurai = new Set(["Hattori","Oda","Tomoe"]);
+
+			//使用延展运算符将集合转换为数组,以便调用数组的filter方法,保留
+			//ninjas中同时在samurai中出现的元素;
+			const ninjaSamurais = new Set(
+				[...ninjas].filter(ninja => samurai.has(ninja))
+			)
+			assert(ninjaSamurais.size === 1, "There's only one ninja samurai");
+			assert(ninjaSamurais.has("Hattori"),"Hattori is his name");
+		</script>
+	</body>
+</html>

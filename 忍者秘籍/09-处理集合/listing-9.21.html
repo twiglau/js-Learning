@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>使用Set执行并集</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const ninjas = ["Kuma","Hattori","Yagyu"];
+			//创建两个数组 ninjas 与 samurai, 注意Hattori在两个数组中均存在
+			const samurai = ["Hattori","Oda","Tomoe"];
+
+			const warriors = new Set([...ninjas,...samurai]);//创建两个数组的并集
+
+			assert(warriors.has("Kuma"),"Kuma is here");
+			assert(warriors.has("Hattori"),"And Hattori");
+			assert(warriors.has("Yagyu"),"And Yagyu");
+			assert(warriors.has("Oda"),"And Oda");
+			//验证新的集合中同时包含数组ninjas 与 samurai 中的所有元素
+			assert(warriors.has("Tomoe"),"Tomoe, last but not least");
+			//集合中没有重复的元素. 虽然在两个数组中都存在Hattori,但是并集中只有一个
+			assert(warriors.size === 5, "There are 5 warriors in total");
+		</script>
+	</body>
+</html>
