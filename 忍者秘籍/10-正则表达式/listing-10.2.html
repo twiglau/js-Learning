@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>创建正则表达式的两种方法</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<script>
+			const res1 = /test/i; //通过字面量创建正则
+			const res2 = new RegExp("test","i");//通过构造函数创建正则
+
+			assert(res1.toString() === "/test/i","Verify the contents of the expression");
+			assert(res1.test("TesT"),"Yes,it's case-insensitive.");
+			assert(res2.test("TesT"),"This one is too.");
+			assert(res1.toString() === res2.toString(),"The regular expressions are equal.");
+			assert(res1 !== res2, "But they are different objects.");
+		</script>
+	</body>
+</html>

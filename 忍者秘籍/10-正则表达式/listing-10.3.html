@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>在运行时编译一个供稍后使用的正则表达式</title>
+		<link rel="stylesheet" href="../assert.css">
+		<script src="../assert.js"></script>
+	</head>
+	<body>
+		<div class="samurai ninja"></div>
+		<div class="ninja samurai"></div>
+		<div></div>
+		<span class="samurai ninja ronin"></span>
+		<script>
+			function findClassInElements(className,type){
+				//根据标签类型查找元素
+				const elems = document.getElementsByTagName(type || "*");
+				//使用传入的 class 名编译正则
+				const regex = new RegExp("(^|\\s)" + className + "(\\s|$)");
+				const results = []; //存储最终结果
+				for(let i = 0, length = elems.length; i < length; i++){
+					if(regex.test(elems[i].className)){
+						//检测是否与正则匹配
+						results.push(elems[i]);
+					}
+					return results;
+				}
+			}
+			
+
+		</script>
+	</body>
+</html>
