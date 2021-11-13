@@ -30,5 +30,16 @@
 
 /**
  * 2. CommonJS
+ * AMD的设计明确基于浏览器,而CommonJS的设计是面向通用JavaScript环境. CommonJS目前在Node.js
+ * 社区具有最多的用户. CommonJS使用基于文件的模块,所以每个文件中只能定义一个模块. CommonJS提供
+ * 变量module, 该变量具有属性 exports, 通过exports可以很容易地扩展额外属性. 最后, module.exports
+ * 作为模块的公共接口.
  * 
+ * 如果希望在应用的其他部分使用模块,那么可以引用模块. 文件同步加载,可以访问模块公共接口. 这是CommonJS
+ * 在服务端更流行的原因,模块加载相对更快,只需要读取文件系统,而在客户端则必须从远程服务器下载文件,同步
+ * 加载通常意味着阻塞.
+ * 
+ * 再看看如何使用CommonJS定义MouseCounterModule模块, 如清单 11.4 所示.
+ * 
+ * 清单11.4 -使用CommonJS定义模块
  */
