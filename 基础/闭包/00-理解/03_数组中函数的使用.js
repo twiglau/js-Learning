@@ -18,7 +18,15 @@ var newNums1 = nums.filter(function(item, index, arr) {
 })
 console.log(newNums1)
 
+// map: 映射
 var newNums2 = nums.map(function(item) {
     return item
 })
 console.log(newNums2)
+
+// forEach: 迭代
+nums.forEach(function(item) {
+    console.log(item)
+})
+
+// reduce:
