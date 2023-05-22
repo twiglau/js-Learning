@@ -4,13 +4,13 @@
  * 举个例子:
  */
 
-// var foo = {
-//     value: 1
-// };
-// function bar(){
-//     console.log(this.value)
-// }
-// bar.call(foo);
+var foo = {
+    value: 1
+};
+function bar(){
+    console.log(this.value)
+}
+bar.call(foo);
 
 /**
  * 注意两点:

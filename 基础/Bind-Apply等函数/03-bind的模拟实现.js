@@ -27,12 +27,12 @@
 //我们来写第一版的代码:
 
 // 第一版
-// Function.prototype.bind1 = function(context){
-//     var self = this;
-//     return function(){
-//         return self.apply(context);
-//     }
-// }
+Function.prototype.bind1 = function(context){
+    var self = this;
+    return function(){
+        return self.apply(context);
+    }
+}
 //此外, 之所以 return self.apply(context), 是考虑到绑定函数可能是有返回值的,依然是该例子:
 // function bar() {
 //    return this.value;
