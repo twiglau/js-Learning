@@ -26,3 +26,21 @@
 > 首先, 我们需要new Proxy 对象, 并且传入需要侦听的对象以及一个处理对象, 可以称之为handler;
 > const p = new Proxy(target, handler)
 > 其次, 我们之后的操作都是直接对Proxy的操作, 而不是原有的对象, 因为我们需要在handler里面进行侦听;
+
+
+## Proxy的set和get捕获器
+
+- 如果我们想要侦听某些具体的操作, 那么就可以在handler中添加对应的捕捉器(Trap):
+- set和get分别对应的是函数类型:
+- set函数有四个参数:
+
+> target: 目标对象(侦听的对象)
+> property: 将被设置的属性key
+> value: 新属性值
+> receiver: 调用的代理对象
+
+- get函数有三个参数:
+
+> target: 目标对象(侦听的对象)
+> property: 被获取的属性Key
+> receiver: 调用的代理对象
