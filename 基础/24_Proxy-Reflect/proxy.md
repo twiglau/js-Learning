@@ -44,3 +44,49 @@
 > target: 目标对象(侦听的对象)
 > property: 被获取的属性Key
 > receiver: 调用的代理对象
+
+## Proxy所有捕获器
+
+- 13个捕获器分别是做什么呢?
+
+> handler.getPrototypeOf()
+>> Object.getPrototypeOf 方法的捕捉器
+> handler.setPrototypeOf()
+>> Object.setPrototypeOf() 方法的捕捉器
+> handler.isExtensible()
+>> Object.isExtensible() 方法的捕捉器
+> handler.preventExtensions()
+> handler.getOwnPropertyDescriptor()
+> handler.defineProperty()
+> handler.ownKeys()
+>> Object.getOwnPropertyNames方法和Object.getOwnPropertySymbols方法的捕捉器
+> handler.has()
+>> in 操作符的捕捉器
+> handler.get()
+> handler.set()
+> handler.deleteProperty()
+>> delete 操作符的捕捉器
+> hanlder.apply()
+>> 函数调用操作的捕捉器 
+> handler.construct()
+>> new 操作符的捕捉器
+
+## Reflect的作用
+
+- Reflect也是ES6新增的一个API, 它是一个对象, 字面的意思是 反射
+- Reflect有什么用?
+
+> 它主要提供了很多操作javaScript对象的方法, 有点像Object中操作对象的方法
+> 比如Reflect.getPrototypeOf(target)类似于Object.getPrototypeOf()
+> 比如Reflect.defineProperty(target, propertyKey, attributes)类似于Object.defineProperty()
+
+- 如果有Object可以做这些操作, 那么为什么还需要有Reflect这样的新增对象?
+
+> 这是因为在早期的ECMA规范中没有考虑到这种 对 对象本身 的操作如何设计会更加规范, 所以 将这些API放到了Object上面
+> 但是Object作为一个构造函数, 这些操作实际上 放到它身上并不合适
+> 另外还包含一些 类似于 in, delete 操作符, 让JS看起来是会有一些奇怪的
+> 所以在ES6中新增了Reflect, 让我们这些操作都集中到了 Reflect对象上
+
+## Reflect 的常见方法
+
+- 它和Proxy是一一对应的, 也是13个
