@@ -1,18 +1,29 @@
 
 
+// 保存当前需要收集的响应式函数
+let activeReactiveFn = null
+
+/**
+ * Depend 优化:
+ * 1 > depend 方法
+ * 2 > 使用 set来保存函数, 而不是数组 []
+ */
 class Depend {
     constructor() {
-        this.reactiveFns = []
+        this.reactiveFns = new Set()
     }
     addDepend(reactiveFn) {
-        this.reactiveFns.push(reactiveFn)
+        this.reactiveFns.add(reactiveFn)
+    }
+    depend() {
+        if(activeReactiveFn) {
+            this.reactiveFns.add(activeReactiveFn)
+        }
     }
     notify() {
         this.reactiveFns.forEach(fn => fn())
     }
 }
-// 封装一个响应式函数
-let activeReactiveFn = null
 function watchFn(fn) {
     activeReactiveFn = fn
     fn()
@@ -50,7 +61,7 @@ const objProxy = new Proxy(obj, {
         // 根据target, key 获取对应 depend
         const depend = getDepend(target, key)
         // 给depend对象中 添加响应函数
-        depend.addDepend(activeReactiveFn)
+        depend.depend()
         return Reflect.get(target, key, receiver)
     },
     set: function (target, key, newValue, receiver) {
@@ -60,10 +71,14 @@ const objProxy = new Proxy(obj, {
     }
 })
 
+// watchFn
 
-watchFn(function () {
-    console.log(objProxy.age, "demo function -----")
+watchFn(()=> {
+    console.log(objProxy.name, "------")
+    console.log(objProxy.name, "++++++")
 })
+
+objProxy.name = "kobe"
 
 
 
