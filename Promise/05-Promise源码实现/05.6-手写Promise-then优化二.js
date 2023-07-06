@@ -56,6 +56,7 @@ class HYPromise {
             // executor 在then调用时, 直接执行一次
             // 下一次执行时(链式调用), 使用 execFunctionWithCatchError 里面状态的返回值 执行
             // 1. 如果在then调用的时候, 状态已经确定下来, 就直接执行
+            // 两个if语句,保证异步调用 then/catch时, status状态已经改变,可以直接调用
             if(this.status == PROMISE_STATUS_FULFILLED && onfulfilled) {
                 execFunctionWithCatchError(onfulfilled, this.value, resolve, reject)
             }
@@ -65,6 +66,8 @@ class HYPromise {
             // 2. 将成功回调和失败回调放到数组中
             if(this.status === PROMISE_STATUS_PENDING) {
                 console.log('zhixingggggg11111')
+                // 数组 - 支持多次调用
+                // push: 匿名函数 保证链式调用拿到 上次调用的返回值
                 this.onfulfilledFns.push(()=>{
                     console.log('zhixingggggg')
                     execFunctionWithCatchError(onfulfilled, this.value, resolve, reject)
