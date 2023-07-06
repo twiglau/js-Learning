@@ -12,11 +12,11 @@ class HYPromise {
         this.onfulfilledFns = []
         this.onrejectedFns = []
         const resolve = (value) => {
+            // 状态判断: 保证 resolve/reject同时智能执行一个
             if(this.status === PROMISE_STATUS_PENDING) {
                 //宏任务
                 //setTimeout(()=>{},0)
-
-                // 微任务
+                // 微任务: then函数在constructor之后执行,保证能正常获取到 回调函数
                 queueMicrotask(()=>{
                     if(this.status !== PROMISE_STATUS_PENDING) return
                     this.status = PROMISE_STATUS_FULFILLED

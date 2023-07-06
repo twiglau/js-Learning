@@ -19,7 +19,6 @@
 > 这个时候相当于是一种yield的语法糖, 只不过会依次迭代这个 可迭代对象, 每次迭代其中的一个值
 
 ```js
-
     /** 分帧加载 */
     private * getGeneratorLength(length: number, callback: Function, ...params: any): Generator {
         for (let i = 0; i < length; i++) {
