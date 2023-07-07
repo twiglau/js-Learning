@@ -7,3 +7,4 @@ const promise = foo()
 promise.then(res => {
     console.log(res)
 })
+
