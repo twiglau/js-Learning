@@ -10,8 +10,12 @@ function bar() {
     // foo()  // 1. 第一种是 不处理, bar函数继续将异常抛出去.
     try {
         foo()
-    } catch (error) {
+    } catch (error) { // error 可以省略
         console.log("error throw out:", error)
+    } finally {
+        console.log("finally 代码执行~")
+        // 做一些收尾的工作
+        // close 操作
     }
 }
 
