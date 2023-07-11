@@ -7,6 +7,20 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- 如果没有 type = module -->
+    <!-- 1. 通过服务器来加载 -->
+    <!-- Encaught SyntaxError: Cannot use import statement outside a module -->
+    <!-- 2. 通过本地来加载 -->
+    <!-- 本地的 url scheme 协议的前缀,不可以的file, file是不可以加载模块的 -->
+    <!-- file:///E:/%E9%A1%B9%E7%9B%AE/js-Learning/%E6%A8%A1%E5%9D%97%E5%8C%96/05_ESModule/index.html -->
+    <!-- Access to script at 'file:///E:/%E9%A1%B9%E7%9B%AE/js-Learning/%E6%A8%A1%E5%9D%97%E5%8C%96/05_ESModule/index.js' 
+    from origin 'null' has been blocked by CORS policy: 
+    Cross origin requests are only supported for protocol schemes: 
+    http, data, isolated-app, chrome-extension, chrome, https, chrome-untrusted. -->
+
+    两个注意事项:
+    1. 使用ES Module, 要加上 type = module
+    2. 要开启本地服务,不能本地加载
     <script src="./index.js" type="module"></script>
 </body>
 </html>

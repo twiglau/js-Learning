@@ -13,4 +13,8 @@
 // }
 
 // 2. 方式二:
-export { name, age, sayHello } from './foo.js';
+// export { name, age, sayHello } from './foo.js';
+
+
+// 3. 导出方式三:
+export * from './foo.js';

@@ -10,7 +10,7 @@
 // 4. 演练: export 和 import 结合使用
 import { name, age, sayHello } from './modules/bar.js';
 
-// 5. 演练: default export 如何导入
+// 5. 导入语句: 默认的导出 export default 演练: default export 如何导入
 import  format from './modules/foo.js';
 format();
 
@@ -32,6 +32,11 @@ if(flag) {
         console.log('bar name', bar.name);
     })
 }
+
+
+// ES11新增的特性: import是一个对象,有一个meta属性
+// meta 属性本身也是一个对象: { url: "当前模块所在的路径" }
+console.log('import.meta',import.meta)
 
 
 

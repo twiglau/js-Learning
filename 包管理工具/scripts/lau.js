@@ -1,0 +1,1 @@
+console.log("全力输出")
